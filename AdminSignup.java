@@ -1,3 +1,4 @@
+import java.awt.CheckboxGroup;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -144,6 +145,18 @@ con =DriverManager.getConnection("jdbc:mysql://localhost:3306/localschool", "roo
 				gender="male";
 			}
 		});
+		
+		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("Others");
+		rdbtnNewRadioButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				gender="Others";
+			}
+		});
+		buttonGroup.add(rdbtnNewRadioButton_2);
+		rdbtnNewRadioButton_2.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		rdbtnNewRadioButton_2.setBounds(579, 201, 103, 21);
+		contentPane.add(rdbtnNewRadioButton_2);
+		
 		rdbtnNewRadioButton.setBounds(417, 201, 70, 21);
 		contentPane.add(rdbtnNewRadioButton);
 		
@@ -213,16 +226,26 @@ con =DriverManager.getConnection("jdbc:mysql://localhost:3306/localschool", "roo
 				fullname=textFname.getText();
 				age=textAge.getText();
 				Mob=textMob.getText();
-				gender=rdbtnNewRadioButton.getText();
-				gender=rdbtnNewRadioButton_1.getText();
 				email=textEmail.getText();
 				Crpwd=crpwd.getText();
 				Repwd=repwd.getText();
+			
 				try {
 					pst =con.prepareStatement("insert into adminsignup(Fullname,Fathername,age,gender,date,Email,mob,Crpwd,Repwd)values(?,?,?,?,?,?,?,?,?)");
 					pst.setString(1,fullname);
 					pst.setString(2,fathername);
 					pst.setString(3,age);
+					if (rdbtnNewRadioButton.isSelected())
+					{
+						gender="Male";
+					}
+					else if(rdbtnNewRadioButton_1.isSelected())
+		{
+			gender="female";
+		}
+					else {
+						gender="others";
+					}
 				   pst.setString(4,gender);
 					SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 					String date = sdf.format(dob.getDate());
@@ -233,17 +256,26 @@ con =DriverManager.getConnection("jdbc:mysql://localhost:3306/localschool", "roo
 					pst.setString(9,Repwd);
 					pst.executeUpdate();
 					
+					if(Crpwd.equals(Repwd))
+					{
+						JOptionPane.showMessageDialog(null, "Record added");
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null,"Password unmatched");
+					}
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				JOptionPane.showMessageDialog(null, "Record added");
+				
 				textFatherName.setText("");
 				textFname.setText("");
 				textAge.setText("");
-				
+				crpwd.setText("");
+				repwd.setText("");
 				textMob.setText("");
-				
 				textFatherName.requestFocus();
 				
 			}
@@ -254,6 +286,8 @@ con =DriverManager.getConnection("jdbc:mysql://localhost:3306/localschool", "roo
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+	
 		
 		
 		
