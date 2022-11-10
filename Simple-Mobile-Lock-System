@@ -1,0 +1,106 @@
+// simple mobile lock system
+package javaloops;
+
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+class mobile {
+	int setpassword;
+	int putpassword;
+	int putpassword1;
+	Scanner sc = new Scanner(System.in);
+
+	public void setpw() {
+
+		System.out.println("Create Your Password as number:");
+
+		setpassword = sc.nextInt(); // password stored
+
+		if (setpassword == 0) {
+
+			System.out.println("Please enter Greater than 3 digit");
+			setpw(); // if user entered password as 0 the setpw() method call until user enter a
+						// number greater than 0
+
+		}
+
+		else {
+			putpw(); // if user enter a number putpw() called
+		}
+		// System.out.println(setpassword);
+	}
+
+	public void putpw() {
+
+		System.out.println("Enter Password here :");
+
+		putpassword = sc.nextInt(); // user re-enter a password
+
+		if (putpassword == 0) {
+
+			System.out.println("Your password greater than 3 digit");
+			putpw(); // if user re-enter a password as 0 the putpw() method call again
+
+		} else {
+			checkpw(); // password matched or not if user enter a password greater than 0 next method
+						// called
+		}
+
+	}
+
+	public void checkpw() {
+
+		if (setpassword == putpassword) // if user enter password correctly the below statement printed
+		{
+
+			System.out.println("Mobile ulocked");
+
+		}
+
+		else { // if user entered password incorrect the below statement printed and tryagain()
+				// mehtod called
+
+			System.out.println("Incorrect password");
+			tryagain();
+
+		}
+
+	}
+
+	public void tryagain() {
+
+		if (setpassword != putpassword) // if user entered unmatched passwords the if condition worked otherwise else
+										// statement printed
+		{
+
+			for (int i = 1; i <= 5; i++) // 5 chances given to the user otherwise mobile locked
+			{
+				if (setpassword == putpassword1) { // between the 5 chances anyone time user enter correct password the
+													// loop breaked. and below statement printed
+					System.out.println("your mobile unlocked");
+					break;
+				}
+
+				System.out.println("Enter your password again please :"); // 5 chances
+				putpassword1 = sc.nextInt();
+
+			}
+			if (setpassword != putpassword1) // if user enter wrong password above 5 times the below statement printed
+
+				System.out.println("Your mobile locked");
+
+		} else // if user entered correct password else statement printed
+		{
+			System.out.println("your mobile unlocked");
+		}
+	}
+}
+
+public class Lock {
+	public static void main(String[] args) {
+
+		mobile m1 = new mobile(); // object creation
+		m1.setpw(); // method calling
+
+	}
+}
